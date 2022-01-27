@@ -1,0 +1,10 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "htmx@1.6.1",
+      "destination": "wwwroot/lib/htmx"
+    }
+  ]
+}

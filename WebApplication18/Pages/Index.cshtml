@@ -1,0 +1,26 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center mb-4">
+    <h1 id="header" class="display-4">Image Uploads</h1>
+    <form id='form'
+          hx-encoding='multipart/form-data'
+          hx-post
+          hx-page="Index" hx-page-handler="Upload"
+          hx-swap="outerHTML"
+          hx-target="#cards">
+        <div class="input-group">
+            <input name="file" type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+            <button class="btn btn-outline-primary" type="submit" id="inputGroupFileAddon04">Upload</button>
+        </div>
+    </form>
+</div>
+
+<div class="row">
+    <div class="col-md">
+        @await Html.PartialAsync("_Images")
+    </div>
+</div>

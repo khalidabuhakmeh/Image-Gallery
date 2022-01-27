@@ -1,0 +1,14 @@
+@using Humanizer
+@model IndexModel
+
+<div id="cards" class="d-flex flex-row justify-content-center flex-wrap align-content-stretch">
+    @foreach (var image in Model.Images)
+    {
+        <div class="card m-1">
+            <img src="@image.Src?width=200&height=200&rmode=crop" class="card-img-top" alt="@image.Filename">
+            <div class="card-footer">
+                <small class="text-muted">Last updated @image.UpdatedAt.Humanize()</small>
+            </div>
+        </div>
+    }
+</div>

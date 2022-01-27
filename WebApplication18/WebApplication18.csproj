@@ -1,0 +1,98 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <LibraryRestore>true</LibraryRestore>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Htmx" Version="0.0.15" />
+      <PackageReference Include="Htmx.TagHelpers" Version="0.0.15" />
+      <PackageReference Include="Humanizer" Version="2.13.14" />
+      <PackageReference Include="JetBrains.Annotations" Version="2022.1.0-eap2" />
+      <PackageReference Include="LigerShark.WebOptimizer.Core" Version="3.0.348" />
+      <PackageReference Include="Marten.AspNetCore" Version="5.0.0-alpha.4" />
+      <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.1.161" />
+      <PackageReference Include="MimeTypes" Version="2.2.1">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="SixLabors.ImageSharp.Web" Version="1.0.5" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="wwwroot\img\naruto.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Remove="wwwroot\is-cache\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="wwwroot\is-cache\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="wwwroot\is-cache\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Remove="wwwroot\is-cache\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\0\4\4\6\8\b\4\e\9\0\f\a\04468b4e90fa.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\0\4\4\6\8\b\4\e\9\0\f\a\04468b4e90fa.meta" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\0\7\9\9\1\4\5\6\d\6\8\6\07991456d686.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\0\7\9\9\1\4\5\6\d\6\8\6\07991456d686.meta" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\0\e\d\e\9\f\0\f\f\0\d\3\0ede9f0ff0d3.meta" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\0\e\d\e\9\f\0\f\f\0\d\3\0ede9f0ff0d3.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\0\f\6\6\7\6\2\d\1\c\0\6\0f66762d1c06.meta" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\0\f\6\6\7\6\2\d\1\c\0\6\0f66762d1c06.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\2\0\2\a\5\7\6\d\d\b\c\2\202a576ddbc2.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\2\0\2\a\5\7\6\d\d\b\c\2\202a576ddbc2.meta" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\2\2\2\7\5\6\5\3\4\5\f\c\2227565345fc.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\2\2\2\7\5\6\5\3\4\5\f\c\2227565345fc.meta" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\4\b\8\1\4\2\f\4\8\c\b\0\4b8142f48cb0.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\4\b\8\1\4\2\f\4\8\c\b\0\4b8142f48cb0.meta" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\5\3\6\0\5\5\1\f\3\c\2\a\5360551f3c2a.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\5\3\6\0\5\5\1\f\3\c\2\a\5360551f3c2a.meta" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\5\e\d\0\4\d\a\c\0\f\f\3\5ed04dac0ff3.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\5\e\d\0\4\d\a\c\0\f\f\3\5ed04dac0ff3.meta" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\6\1\b\e\3\7\c\7\9\a\b\7\61be37c79ab7.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\6\1\b\e\3\7\c\7\9\a\b\7\61be37c79ab7.meta" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\8\1\6\f\a\7\c\0\c\a\9\d\816fa7c0ca9d.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\8\1\6\f\a\7\c\0\c\a\9\d\816fa7c0ca9d.meta" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\8\9\a\0\5\b\c\b\a\8\c\f\89a05bcba8cf.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\8\9\a\0\5\b\c\b\a\8\c\f\89a05bcba8cf.meta" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\9\1\4\4\3\b\a\a\7\f\4\f\91443baa7f4f.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\9\1\4\4\3\b\a\a\7\f\4\f\91443baa7f4f.meta" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\a\2\7\6\0\d\0\3\0\1\d\6\a2760d0301d6.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\a\2\7\6\0\d\0\3\0\1\d\6\a2760d0301d6.meta" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\a\c\7\5\f\7\7\2\2\d\d\0\ac75f7722dd0.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\a\c\7\5\f\7\7\2\2\d\d\0\ac75f7722dd0.meta" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\b\4\5\6\d\f\5\f\c\1\7\9\b456df5fc179.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\b\4\5\6\d\f\5\f\c\1\7\9\b456df5fc179.meta" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\b\7\9\9\5\1\d\e\0\7\3\5\b79951de0735.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\b\7\9\9\5\1\d\e\0\7\3\5\b79951de0735.meta" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\b\f\2\c\f\b\7\b\b\d\b\b\bf2cfb7bbdbb.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\b\f\2\c\f\b\7\b\b\d\b\b\bf2cfb7bbdbb.meta" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\d\1\5\d\d\2\5\e\c\d\c\d\d15dd25ecdcd.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\d\1\5\d\d\2\5\e\c\d\c\d\d15dd25ecdcd.meta" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\d\f\3\2\9\c\4\0\b\0\7\0\df329c40b070.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\d\f\3\2\9\c\4\0\b\0\7\0\df329c40b070.meta" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\e\1\0\c\3\b\e\b\2\c\5\9\e10c3beb2c59.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\e\1\0\c\3\b\e\b\2\c\5\9\e10c3beb2c59.meta" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\e\2\3\5\d\7\7\e\e\6\7\f\e235d77ee67f.meta" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\e\2\3\5\d\7\7\e\e\6\7\f\e235d77ee67f.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\e\4\b\7\9\d\f\c\3\9\8\c\e4b79dfc398c.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\e\4\b\7\9\d\f\c\3\9\8\c\e4b79dfc398c.meta" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\e\9\7\5\7\c\e\b\4\8\a\7\e9757ceb48a7.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\e\9\7\5\7\c\e\b\4\8\a\7\e9757ceb48a7.meta" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\f\8\b\6\1\9\2\f\0\e\7\a\f8b6192f0e7a.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\is-cache\f\8\b\6\1\9\2\f\0\e\7\a\f8b6192f0e7a.meta" />
+    </ItemGroup>
+
+</Project>
