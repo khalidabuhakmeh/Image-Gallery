@@ -7,7 +7,9 @@
         <div class="card m-1">
             <img src="@image.Src?width=200&height=200&rmode=crop" class="card-img-top" alt="@image.Filename">
             <div class="card-footer">
-                <small class="text-muted">Last updated @image.UpdatedAt.Humanize()</small>
+                <small class="text-muted">
+                    @image.UpdatedAt.Humanize()
+                </small>
             </div>
         </div>
     }

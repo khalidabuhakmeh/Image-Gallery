@@ -1,7 +1,5 @@
-﻿using System.Net.Mime;
-using Baseline;
+﻿using Baseline;
 using Htmx;
-using JetBrains.Annotations;
 using Marten;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -32,9 +30,14 @@ public class IndexModel : PageModel
             .ToListAsync();
     }
 
-    public async Task<IActionResult> OnPost([FromForm] IFormFile file)
+    public async Task<IActionResult> OnPost([FromForm] IFormFile? file)
     {
-        var image = new Image {
+        if (file is null) {
+            return RedirectToPage("Index");
+        }
+        
+        var image = new Image
+        {
             ContentType = MimeTypes.GetMimeType(file.FileName),
             Filename = file.FileName,
             Bytes = await file.OpenReadStream().ReadAllBytesAsync()
@@ -43,27 +46,20 @@ public class IndexModel : PageModel
         await using var session = db.OpenSession();
         session.Store(image);
         await session.SaveChangesAsync();
+        
+        logger.LogInformation(
+            "Stored the {Filename} with Id of {Id}", 
+            image.Filename, image.Id
+        );
 
         Images = await session
             .Query<Image>()
             .OrderByDescending(x => x.UpdatedAt)
             .ToListAsync();
 
-        return Partial("_Images", this);
-    }
-}
-
-public static class PageModelExtensions
-{
-    public static IActionResult Html(this PageModel model,
-        [LanguageInjection(InjectedLanguage.HTML)]
-        string html)
-    {
-        return model.Content(html, "text/html");
-    }
-
-    public static IActionResult Html2(this PageModel model, string html)
-    {
-        return model.Content(html, "text/html");
+        // graceful fallback
+        return Request.IsHtmx()
+            ? Partial("_Images", this)
+            : RedirectToPage("Index");
     }
 }
