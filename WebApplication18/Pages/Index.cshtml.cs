@@ -32,25 +32,25 @@ public class IndexModel : PageModel
 
     public async Task<IActionResult> OnPost([FromForm] IFormFile? file)
     {
-        if (file is null) {
-            return RedirectToPage("Index");
-        }
-        
-        var image = new Image
-        {
-            ContentType = MimeTypes.GetMimeType(file.FileName),
-            Filename = file.FileName,
-            Bytes = await file.OpenReadStream().ReadAllBytesAsync()
-        };
-
         await using var session = db.OpenSession();
-        session.Store(image);
-        await session.SaveChangesAsync();
         
-        logger.LogInformation(
-            "Stored the {Filename} with Id of {Id}", 
-            image.Filename, image.Id
-        );
+        if (file is not null)
+        {
+            var image = new Image
+            {
+                ContentType = MimeTypes.GetMimeType(file.FileName),
+                Filename = file.FileName,
+                Bytes = await file.OpenReadStream().ReadAllBytesAsync()
+            };
+         
+            session.Store(image);
+            await session.SaveChangesAsync();
+            
+            logger.LogInformation(
+                "Stored the {Filename} with Id of {Id}", 
+                image.Filename, image.Id
+            );
+        }
 
         Images = await session
             .Query<Image>()
