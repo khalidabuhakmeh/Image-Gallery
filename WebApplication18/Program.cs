@@ -5,13 +5,17 @@ using Weasel.Postgresql;
 using WebApplication18;
 
 var builder = WebApplication.CreateBuilder(args);
+var supabase = new SupabaseConfiguration();
+builder.Configuration.Bind("Supabase", supabase);
+await Supabase.Client.InitializeAsync(supabase.Url, supabase.Key);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddWebOptimizer();
+builder.Services.AddSingleton(_ => Supabase.Client.Instance);
+
 builder.Services.AddMarten(options => {
-    var connectionString = builder.Configuration.GetConnectionString("marten");
-    options.Connection(connectionString);
+    options.Connection(supabase.ConnectionString);
     // destructive, but YOLO!
     options.AutoCreateSchemaObjects = AutoCreate.All;
 });
@@ -19,7 +23,7 @@ builder.Services.AddMarten(options => {
 builder.Services
     .AddImageSharp()
     .ClearProviders()
-    .AddProvider<MartenImageProvider>()
+    .AddProvider<SupabaseImageProvider>()
     .AddProvider<PhysicalFileSystemProvider>();
 
 var app = builder.Build();
@@ -44,3 +48,10 @@ app.MapRazorPages();
 
 app.Run();
 
+public class SupabaseConfiguration {
+    public const string Bucket = "helloworld-images";
+    
+    public string Url { get; init; }
+    public string Key { get; init; }
+    public string ConnectionString { get; init; }
+}

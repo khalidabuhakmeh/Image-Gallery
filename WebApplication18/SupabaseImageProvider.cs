@@ -4,20 +4,22 @@ using Microsoft.AspNetCore.Http.Extensions;
 using SixLabors.ImageSharp.Web;
 using SixLabors.ImageSharp.Web.Providers;
 using SixLabors.ImageSharp.Web.Resolvers;
+using Supabase.Storage;
 using WebApplication18.Models;
+using Client = Supabase.Client;
 
 namespace WebApplication18;
 
 // ReSharper disable once ClassNeverInstantiated.Global
-public class MartenImageProvider : IImageProvider
+public class SupabaseImageProvider : IImageProvider
 {
     private readonly FormatUtilities formatUtilities;
     private readonly IDocumentStore store;
 
     private static readonly Regex UrlPattern 
-        = new("^/images/uploads/(?<id>[0-9]+)/(?<filename>.+\\..+)$", RegexOptions.IgnoreCase);
+        = new("^/images/uploads/(?<id>.+)$", RegexOptions.IgnoreCase);
 
-    public MartenImageProvider(FormatUtilities formatUtilities, IDocumentStore store)
+    public SupabaseImageProvider(FormatUtilities formatUtilities, IDocumentStore store)
     {
         this.formatUtilities = formatUtilities;
         this.store = store;
@@ -31,14 +33,17 @@ public class MartenImageProvider : IImageProvider
         await using var session = store.LightweightSession();
 
         var match = UrlPattern.Match(context.Request.Path);
-        var id = int.Parse(match.Groups["id"].Value);
+        var id = match.Groups["id"].Value;
 
-        var image = await session.LoadAsync<Image>(id);
+        var image = await session.Query<Image>()
+            .Where(i => i.SupabasePath == id)
+            .FirstOrDefaultAsync();
+        
         if (image is null) {
             return null!;
         }
         
-        var resolver = new InMemoryResolver(image.Bytes, image.UpdatedAt.Date);
+        var resolver = new SupabaseResolver(image);
         return resolver;
     }
 
@@ -52,25 +57,27 @@ public class MartenImageProvider : IImageProvider
             return isMatch;
         };
 
-    private class InMemoryResolver : IImageResolver
+    private class SupabaseResolver : IImageResolver
     {
-        private readonly byte[] bytes;
-        private readonly DateTime modified;
+        private readonly Image image;
+        private readonly Client client;
 
-        public InMemoryResolver(byte[] bytes, DateTime modified)
+        public SupabaseResolver(Image image)
         {
-            this.bytes = bytes;
-            this.modified = modified;
+            this.image = image;
+            client = Client.Instance;
         }
         
         public Task<ImageMetadata> GetMetaDataAsync()
         {
-            return Task.FromResult(new ImageMetadata(modified, bytes.Length));
+            return Task.FromResult(new ImageMetadata(image.UpdatedAt.DateTime, image.FileLength));
         }
 
-        public Task<Stream> OpenReadAsync()
+        public async Task<Stream> OpenReadAsync()
         {
-            return Task.FromResult((Stream) new MemoryStream(bytes));
+            var bucket = client.Storage.From(SupabaseConfiguration.Bucket);
+            var bytes = await bucket.Download(image.SupabasePath);
+            return new MemoryStream(bytes);
         }
     }
 }

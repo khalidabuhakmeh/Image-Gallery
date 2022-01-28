@@ -9,6 +9,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <Watch Include="**\*.cshtml;*.razor;*.js;*.css" Exclude="**\obj\**\*;bin\**\*" />
+    </ItemGroup>
+
+    <ItemGroup>
       <PackageReference Include="Htmx" Version="0.0.15" />
       <PackageReference Include="Htmx.TagHelpers" Version="0.0.15" />
       <PackageReference Include="Humanizer" Version="2.13.14" />
@@ -21,6 +25,8 @@
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
       <PackageReference Include="SixLabors.ImageSharp.Web" Version="1.0.5" />
+      <PackageReference Include="supabase-csharp" Version="0.3.1" />
+      <PackageReference Include="supabase-storage-csharp" Version="1.0.1" />
     </ItemGroup>
 
     <ItemGroup>

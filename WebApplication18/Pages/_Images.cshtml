@@ -5,7 +5,9 @@
     @foreach (var image in Model.Images)
     {
         <div class="card m-1">
-            <img src="@image.Src?width=200&height=200&rmode=crop" class="card-img-top" alt="@image.Filename">
+            <a href="@image.Src" download>
+                <img src="@image.Src?width=200&height=200&rmode=crop" class="card-img-top" alt="@image.Filename">
+            </a>
             <div class="card-footer">
                 <small class="text-muted">
                     @image.UpdatedAt.Humanize()

@@ -3,7 +3,10 @@ using Htmx;
 using Marten;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Supabase.Storage;
 using WebApplication18.Models;
+using Client = Supabase.Client;
+using FileOptions = Supabase.Storage.FileOptions;
 
 namespace WebApplication18.Pages;
 
@@ -11,14 +14,16 @@ public class IndexModel : PageModel
 {
     private readonly ILogger<IndexModel> logger;
     private readonly IDocumentStore db;
+    private readonly Client supabase;
 
     public IReadOnlyList<Image> Images { get; set; }
         = new List<Image>().AsReadOnly();
 
-    public IndexModel(ILogger<IndexModel> logger, IDocumentStore db)
+    public IndexModel(ILogger<IndexModel> logger, IDocumentStore db, Client supabase)
     {
         this.logger = logger;
         this.db = db;
+        this.supabase = supabase;
     }
 
     public async Task OnGet()
@@ -36,11 +41,21 @@ public class IndexModel : PageModel
         
         if (file is not null)
         {
-            var image = new Image
-            {
+            // upload to supabase
+            var bucket = supabase.Storage.From(SupabaseConfiguration.Bucket);
+            var bytes = await file.OpenReadStream().ReadAllBytesAsync();
+            var extension = System.IO.Path.GetExtension(file.FileName);
+
+            var supabasePath = $"{Guid.NewGuid():N}{extension}";
+            var url = await bucket.Upload(bytes, supabasePath);
+            var publicUrl = bucket.GetPublicUrl(supabasePath);
+
+            var image = new Image {
                 ContentType = MimeTypes.GetMimeType(file.FileName),
                 Filename = file.FileName,
-                Bytes = await file.OpenReadStream().ReadAllBytesAsync()
+                FileLength = bytes.Length,
+                SupabasePath = supabasePath,
+                SupabasePublicUrl = publicUrl
             };
          
             session.Store(image);
