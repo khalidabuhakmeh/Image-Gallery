@@ -44,18 +44,16 @@ public class IndexModel : PageModel
             // upload to supabase
             var bucket = supabase.Storage.From(SupabaseConfiguration.Bucket);
             var bytes = await file.OpenReadStream().ReadAllBytesAsync();
-            var extension = System.IO.Path.GetExtension(file.FileName);
+            var extension = Path.GetExtension(file.FileName);
 
             var supabasePath = $"{Guid.NewGuid():N}{extension}";
-            var url = await bucket.Upload(bytes, supabasePath);
-            var publicUrl = bucket.GetPublicUrl(supabasePath);
+            await bucket.Upload(bytes, supabasePath);
 
             var image = new Image {
                 ContentType = MimeTypes.GetMimeType(file.FileName),
                 Filename = file.FileName,
                 FileLength = bytes.Length,
-                SupabasePath = supabasePath,
-                SupabasePublicUrl = publicUrl
+                SupabasePath = supabasePath
             };
          
             session.Store(image);

@@ -8,7 +8,6 @@ public class Image
     public string Filename { get; set; }
     public string ContentType { get; set; }
     public long FileLength { get; set; }
-    public string SupabasePublicUrl { get; set; }
     public string SupabasePath { get; set; }
     public DateTimeOffset UpdatedAt { get; set; }
         = DateTimeOffset.UtcNow;
@@ -16,6 +15,4 @@ public class Image
     [JsonIgnore]
     public string Src =>
         $"/images/uploads/{SupabasePath}";
-
-    
 }
